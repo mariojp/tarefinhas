@@ -1,11 +1,16 @@
 package br.com.mariojp.mobile.applicationbes;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton adicionar;
     private List<Tarefa> tarefas = new ArrayList<>();
     private TarefaAdapter adapter;
+    private ActivityResultLauncher<Intent> novaTarefa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,19 @@ public class MainActivity extends AppCompatActivity {
 
         adicionar = findViewById(R.id.main_fab_adicionar);
 
+        novaTarefa = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == RESULT_OK){
+                                Tarefa tarefa = (Tarefa) result.getData().getSerializableExtra(TAREFA);
+                                tarefas.add(tarefa);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                }
+        );
 
         // MVC
         //ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , tarefas);
@@ -67,23 +86,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void adicionar(View view){
         Intent intent = new Intent(this,FormActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
+        novaTarefa.launch(intent);
+
+        //startActivityForResult(intent, REQUEST_CODE);
 //        Tarefa tarefa = new Tarefa("Tarefa Nova");
 //        tarefas.add(tarefa);
 //        adapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(REQUEST_CODE == requestCode){
-            if(resultCode == RESULT_OK){
-                Tarefa tarefa = (Tarefa) data.getSerializableExtra(TAREFA);
-                tarefas.add(tarefa);
-                adapter.notifyDataSetChanged();
-            }
-        }
 
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }
