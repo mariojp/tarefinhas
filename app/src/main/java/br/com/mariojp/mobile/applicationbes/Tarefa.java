@@ -1,6 +1,8 @@
 package br.com.mariojp.mobile.applicationbes;
 
-public class Tarefa {
+import java.io.Serializable;
+
+public class Tarefa implements Serializable {
 
     private String titulo;
     private String descricao;
@@ -8,8 +10,12 @@ public class Tarefa {
     private Integer pontuacao;
 
     public Tarefa(String titulo){
+        this(titulo, "Descrição da "+titulo);
+    }
+
+    public Tarefa(String titulo, String descricao){
         this.titulo = titulo;
-        this.descricao = "Descrição da "+titulo;
+        this.descricao = descricao;
         this.completa = false;
         this.pontuacao = 5;
     }

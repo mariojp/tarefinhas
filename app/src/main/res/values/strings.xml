@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Tarefinhas</string>
+    <string name="app_name" translatable="false">Tarefinhas</string>
+    <string name="field_name">Nome</string>
+    <string name="field_title">Titulo</string>
+    <string name="field_description">Descrição</string>
+    <string name="field_finish">Finalizada</string>
+    <string name="field_points">Pontos</string>
 </resources>

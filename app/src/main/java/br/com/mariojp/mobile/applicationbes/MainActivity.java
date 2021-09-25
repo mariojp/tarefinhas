@@ -1,8 +1,10 @@
 package br.com.mariojp.mobile.applicationbes;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,9 +20,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE = 1;
+    public static final String TAREFA = "TAREFA";
     private ListView listView;
     private FloatingActionButton adicionar;
-    private List tarefas;
+    private List<Tarefa> tarefas = new ArrayList<>();
     private TarefaAdapter adapter;
 
     @Override
@@ -32,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         adicionar = findViewById(R.id.main_fab_adicionar);
 
-        tarefas = carregaTarefas();
 
         // MVC
         //ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , tarefas);
@@ -63,20 +66,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void adicionar(View view){
-        Tarefa tarefa = new Tarefa("Tarefa Nova");
-        tarefas.add(tarefa);
-        adapter.notifyDataSetChanged();
+        Intent intent = new Intent(this,FormActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+//        Tarefa tarefa = new Tarefa("Tarefa Nova");
+//        tarefas.add(tarefa);
+//        adapter.notifyDataSetChanged();
     }
 
-    @NonNull
-    private List<Tarefa> carregaTarefas() {
-        List<Tarefa> tarefas = new ArrayList<>();
-        for (int i = 0; i < 20; i++){
-            Tarefa tarefa = new Tarefa("Tarefa "+i);
-            tarefas.add(tarefa);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(REQUEST_CODE == requestCode){
+            if(resultCode == RESULT_OK){
+                Tarefa tarefa = (Tarefa) data.getSerializableExtra(TAREFA);
+                tarefas.add(tarefa);
+                adapter.notifyDataSetChanged();
+            }
         }
-        return tarefas;
+
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }
