@@ -1,4 +1,4 @@
-package br.com.mariojp.mobile.applicationbes;
+package br.com.mariojp.mobile.applicationbes.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import br.com.mariojp.mobile.applicationbes.R;
+import br.com.mariojp.mobile.applicationbes.model.Tarefa;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 

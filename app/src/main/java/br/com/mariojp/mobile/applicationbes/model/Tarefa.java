@@ -1,23 +1,45 @@
-package br.com.mariojp.mobile.applicationbes;
+package br.com.mariojp.mobile.applicationbes.model;
+
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-public class Tarefa implements Serializable {
+
+@Entity
+public class Tarefa implements Serializable{
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @PrimaryKey
+    private Long id;
 
     private String titulo;
     private String descricao;
     private Boolean completa;
     private Integer pontuacao;
 
+    @Ignore
     public Tarefa(String titulo){
         this(titulo, "Descrição da "+titulo);
     }
 
+    @Ignore
     public Tarefa(String titulo, String descricao){
         this.titulo = titulo;
         this.descricao = descricao;
         this.completa = false;
         this.pontuacao = 5;
+    }
+
+    public Tarefa() {
     }
 
     public String getTitulo() {

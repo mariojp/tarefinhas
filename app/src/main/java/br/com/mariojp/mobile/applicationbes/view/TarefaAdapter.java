@@ -1,4 +1,4 @@
-package br.com.mariojp.mobile.applicationbes;
+package br.com.mariojp.mobile.applicationbes.view;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+
+import br.com.mariojp.mobile.applicationbes.R;
+import br.com.mariojp.mobile.applicationbes.model.Tarefa;
 
 public class TarefaAdapter extends BaseAdapter {
 

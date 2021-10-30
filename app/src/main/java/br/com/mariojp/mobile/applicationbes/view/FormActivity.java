@@ -1,4 +1,4 @@
-package br.com.mariojp.mobile.applicationbes;
+package br.com.mariojp.mobile.applicationbes.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import br.com.mariojp.mobile.applicationbes.R;
+import br.com.mariojp.mobile.applicationbes.model.Tarefa;
 
 public class FormActivity extends AppCompatActivity {
 

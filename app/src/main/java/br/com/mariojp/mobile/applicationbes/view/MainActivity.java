@@ -1,30 +1,28 @@
-package br.com.mariojp.mobile.applicationbes;
+package br.com.mariojp.mobile.applicationbes.view;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.mariojp.mobile.applicationbes.R;
+import br.com.mariojp.mobile.applicationbes.model.Tarefa;
+import br.com.mariojp.mobile.applicationbes.persistencia.BancoDados;
+import br.com.mariojp.mobile.applicationbes.persistencia.BancoDadosRoom;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,19 +37,29 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> novaTarefa;
 
+    private BancoDados bancoDados;
+    private BancoDadosRoom db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bancoDados = new BancoDados(this);
+
+        db = Room.databaseBuilder(this, BancoDadosRoom.class,
+                "banco.db")
+                .allowMainThreadQueries()
+                .build();
+
+        tarefas = db.tarefaRoomDao().findAll();
 
         listView = findViewById(R.id.main_list_tarefas);
-        listView2 = findViewById(R.id.main_list_tarefas_2);
+
 
 
         adicionar = findViewById(R.id.main_fab_adicionar);
 
-        for (int i = 1 ; i < 20 ; i++)
-            tarefas.add(new Tarefa("Tarefa"+i));
+
 
 //        novaTarefa = registerForActivityResult(
 //                new ActivityResultContracts.StartActivityForResult(),
@@ -73,10 +81,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter(tarefas);
 
         listView.setAdapter(adapter);
-        listView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
+        listView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
 
-        listView2.setAdapter(new CustomAdapter(tarefas));
-        listView2.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,true));
 
 
         //listView.setLayoutManager(new GridLayoutManager(this,2));
@@ -102,8 +108,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void adicionar(View view){
-        Intent intent = new Intent(this,FormActivity.class);
-        novaTarefa.launch(intent);
+        Log.d("Adicionando Tarefa","Adicionando Tarefa");
+        Tarefa nova = new Tarefa("Nova","descricao 2");
+        db.tarefaRoomDao().insert(nova);
+        tarefas.clear();
+        tarefas.addAll(db.tarefaRoomDao().findAll());
+        adapter.notifyDataSetChanged();
+//        Intent intent = new Intent(this,FormActivity.class);
+//        novaTarefa.launch(intent);
 
         //startActivityForResult(intent, REQUEST_CODE);
 //        Tarefa tarefa = new Tarefa("Tarefa Nova");
