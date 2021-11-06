@@ -9,8 +9,7 @@ import java.util.List;
 import br.com.mariojp.mobile.applicationbes.model.Tarefa;
 
 @Dao
-public interface TarefaRoomDao {
-
+public interface TarefaDao {
 
     @Insert
     public void insert(Tarefa tarefa);

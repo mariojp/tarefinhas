@@ -42,6 +42,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         return dados.size();
     }
 
+    public void update(List<Tarefa> tarefas) {
+        notifyItemRangeRemoved(0,this.dados.size());
+        this.dados.clear();
+        this.dados.addAll(tarefas);
+        notifyItemRangeInserted(0,this.dados.size());
+    }
+
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView titulo;

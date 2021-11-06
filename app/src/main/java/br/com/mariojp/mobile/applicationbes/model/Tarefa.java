@@ -21,10 +21,10 @@ public class Tarefa implements Serializable{
     @PrimaryKey
     private Long id;
 
-    private String titulo;
-    private String descricao;
-    private Boolean completa;
-    private Integer pontuacao;
+    private String titulo ="";
+    private String descricao ="";
+    private Boolean completa = false;
+    private Integer pontuacao = 0;
 
     @Ignore
     public Tarefa(String titulo){
