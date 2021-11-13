@@ -8,18 +8,24 @@ import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import br.com.mariojp.mobile.applicationbes.R;
-import br.com.mariojp.mobile.applicationbes.model.Tarefa;
+import java.io.Serializable;
 
-public class FormActivity extends AppCompatActivity {
+import br.com.mariojp.mobile.applicationbes.FormLogicPresenter;
+import br.com.mariojp.mobile.applicationbes.R;
+
+public class FormActivity<T extends LogicPresenter> extends AppCompatActivity {
 
     private TextInputLayout titulo;
     private TextInputLayout descricao;
 
 
+    private T presenter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = (T) new FormLogicPresenter(this);
         setContentView(R.layout.activity_form);
         setTitle("Criar Tarefa");
         titulo = findViewById(R.id.form_input_title);
@@ -31,8 +37,8 @@ public class FormActivity extends AppCompatActivity {
         Intent data = getIntent();
         String valor_titulo = titulo.getEditText().getText().toString();
         String valor_descricao = descricao.getEditText().getText().toString();
-        Tarefa tarefa = new Tarefa(valor_titulo,valor_descricao);
-        data.putExtra(MainActivity.TAREFA,tarefa);
+        Serializable model = presenter.salvar(valor_descricao, valor_titulo);
+        data.putExtra(MainActivity.TAREFA,model);
         setResult(RESULT_OK,data);
         finish();
     }

@@ -4,7 +4,11 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Entity
@@ -85,4 +89,7 @@ public class Tarefa implements Serializable{
                 ", pontuacao=" + pontuacao +
                 '}';
     }
+
+
+
 }

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.mariojp.mobile.applicationbes">
 
+    <uses-permission android:name="android.permission.INTERNET" android:requiredFeature="true"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

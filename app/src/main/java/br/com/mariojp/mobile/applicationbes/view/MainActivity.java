@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import br.com.mariojp.mobile.applicationbes.R;
@@ -45,9 +47,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Gson gson = new Gson();
+        Object[] t = Arrays.asList(
+                new Tarefa("titulo 1","d1"),
+                new Tarefa("titulo 2","d2"),
+                new Tarefa("titulo 3","d3"),
+                new Tarefa("titulo 4","d4")
+        ).toArray();
+        String json = gson.toJson(t);
+        System.out.println(json);
+
         Repository repository = new Repository(BancoDados.getInstance(this).tarefaDao());
+
         TarefaViewModelFabrica fabrica = new TarefaViewModelFabrica(repository);
-        ViewModelProvider provider = new ViewModelProvider(this, fabrica);
+       
+ ViewModelProvider provider = new ViewModelProvider(this, fabrica);
         tarefaViewModel = provider.get(TarefaViewModel.class);
         listView = findViewById(R.id.main_list_tarefas);
         adapter = new CustomAdapter(tarefas);
